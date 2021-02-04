@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const todos = sequelize.define("todos", {
-      id: {
+      _id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV1,
         primaryKey: true
