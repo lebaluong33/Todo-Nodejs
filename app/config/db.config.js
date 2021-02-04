@@ -8,7 +8,10 @@ module.exports = {
   DB: 'db70pgbgskul52',
   dialect: 'postgres',
   dialectOptions: {
-    ssl: true,
+    ssl: {
+      require: true, // This will help you. But you will see nwe error
+      rejectUnauthorized: false, // This line will fix new error
+    },
   },
   pool: {
     max: 5,
