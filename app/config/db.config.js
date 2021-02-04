@@ -1,10 +1,10 @@
 const password = require('./password.js');
 
 module.exports = {
-    HOST: "localhost",
-    USER: "luong",
+    HOST: "ec2-3-222-11-129.compute-1.amazonaws.com:5432",
+    USER: "ligganldbtgjff",
     PASSWORD: password.password,
-    DB: "todo",
+    DB: "db70pgbgskul52",
     dialect: "mysql",
     pool: {
       max: 5,
