@@ -6,7 +6,7 @@ module.exports = {
     PORT: 5432,
     PASSWORD: password.password,
     DB: "db70pgbgskul52",
-    dialect: "mysql",
+    dialect: "postgres",
     pool: {
       max: 5,
       min: 0,
