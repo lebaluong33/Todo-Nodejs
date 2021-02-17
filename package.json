@@ -2,10 +2,10 @@
   "name": "todo",
   "version": "1.0.0",
   "description": "Nodejs Todo App using Rest API",
-  "main": "server.js",
+  "main": "srx/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node src/index.js"
   },
   "author": "lebaluong33@gmail.com",
   "license": "ISC",
