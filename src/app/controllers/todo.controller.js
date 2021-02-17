@@ -1,6 +1,19 @@
 const db = require('../models');
 const Todo = db.todos;
-const Op = db.Sequelize.Op;
+// const Op = db.Sequelize.Op;
+
+// Get all todos
+exports.getAllTodos = (req, res) => {
+  Todo.findAll({})
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while creating the todo.',
+      });
+    });
+};
 
 // Create and Save a new todo
 exports.create = (req, res) => {
@@ -27,37 +40,6 @@ exports.create = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || 'Some error occurred while creating the todo.',
-      });
-    });
-};
-
-// Retrieve all todos from the database.
-exports.findAll = (req, res) => {
-  const value = req.query.value;
-  var condition = value ? { value: { [Op.like]: `%${value}%` } } : null;
-
-  Todo.findAll({ where: condition })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving Todos.',
-      });
-    });
-};
-
-// Find a single todo with an id
-exports.findOne = (req, res) => {
-  const id = req.params.id;
-
-  Todo.findByPk(id)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: 'Error retrieving Todo with id=' + id,
       });
     });
 };
@@ -110,15 +92,16 @@ exports.delete = (req, res) => {
       });
     });
 };
-
-// Delete all todos from the database.
-exports.deleteAll = (req, res) => {
+//delete all completed todos
+exports.deleteAllCompleted = (req, res) => {
   Todo.destroy({
-    where: {},
+    where: { where: { isCompleted: true } },
     truncate: false,
   })
     .then((nums) => {
-      res.send({ message: `${nums} Todos were deleted successfully!` });
+      res.send({
+        message: `${nums} Completed todos were deleted successfully!`,
+      });
     })
     .catch((err) => {
       res.status(500).send({
@@ -126,9 +109,23 @@ exports.deleteAll = (req, res) => {
       });
     });
 };
-// Find all published todos
+
+// Find all completed todos
 exports.findAllCompleted = (req, res) => {
   Todo.findAll({ where: { isCompleted: true } })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while retrieving Todos.',
+      });
+    });
+};
+
+// Find all active todos
+exports.findAllActive = (req, res) => {
+  Todo.findAll({ where: { isCompleted: false } })
     .then((data) => {
       res.send(data);
     })

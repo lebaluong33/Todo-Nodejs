@@ -23,14 +23,9 @@ const db = require("./app/models");
 
 db.sequelize.sync();
 
-//drop table if exist
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync db.");
-// });
-
-// // simple route
+// simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to my first application." });
+  res.json({ message: "Welcome to my todo application." });
 });
 
 
