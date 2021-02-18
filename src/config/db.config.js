@@ -1,4 +1,4 @@
-const password = require('./password.js');
+const password = require('./password');
 
 module.exports = {
   HOST: 'ec2-3-222-11-129.compute-1.amazonaws.com',
