@@ -6,7 +6,7 @@ const app = express();
 
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: "*"
 };
 
 app.use(cors(corsOptions));
@@ -35,6 +35,8 @@ app.get("/", (req, res) => {
 
 
 require("./routes/todo.routes")(app);
+require("./routes/todoSwagger.routes")(app);
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
