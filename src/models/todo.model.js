@@ -1,15 +1,15 @@
 module.exports = (sequelize, Sequelize) => {
     const todos = sequelize.define("todos", {
-      _id: {
+      id: {
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV1,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
       },
       isCompleted: {
         type: Sequelize.BOOLEAN
       },
       value: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(10000)
       }
     });
   
