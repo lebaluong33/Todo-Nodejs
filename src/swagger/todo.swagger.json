@@ -1,0 +1,143 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a todo app project build with nodejs-express",
+    "version": "1.0.0",
+    "title": "Swagger Todo App",
+    "contact": {
+      "email": "Lebaluong33@gmail.com"
+    }
+  },
+  "host": "todo-app-deploy-demo.herokuapp.com",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Todo",
+      "description": "Everything about Todo app",
+      "externalDocs": {
+        "description": "Contact me",
+        "url": "https://github.com/lebaluong33"
+      }
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/todos": {
+      "post": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Create new todo",
+        "description": "",
+        "operationId": "create todo",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Todo object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Todo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create todo successful"
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Update an existing todo",
+        "description": "",
+        "operationId": "updateTodo",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pet object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Todo"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Pet not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Todo": {
+      "type": "object",
+      "required": [
+        "value",
+        "isCompleted"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "example": "di cho, nau an"
+        },
+        "isCompleted": {
+          "type": "boolean",
+          "example": false
+        }
+      },
+      "xml": {
+        "name": "Todo"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
