@@ -58,13 +58,13 @@ exports.updateTodo = (req, res) => {
     where: { id: id },
   })
     .then((num) => {
-      if (num === 1) {
+      if (num.length) {
         res.send({
           message: 'Todo was updated successfully.',
         });
       } else {
         res.send({
-          message: `Cannot update Todo with id=${id}. Maybe Todo was not found or req.body is empty!`,
+          message: `Cannot update Todo with id=${id}.`,
         });
       }
     })
