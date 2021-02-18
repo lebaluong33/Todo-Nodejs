@@ -15,20 +15,26 @@ exports.getAllTodos = (req, res) => {
     });
 };
 
-// Create and Save a new todo
-exports.create = (req, res) => {
-  // Validate request
-  console.log('req:   ', req);
-  if (!req.body.value) {
-    res.status(400).send({
-      message: 'Content can not be empty!',
-    });
-    return;
-  }
+// Find a single Todo with an id
+exports.findOne = (req, res) => {
+  const id = req.params.id;
 
+  Todo.findByPk(id)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: 'Error retrieving todo with id=' + id,
+      });
+    });
+};
+
+// Create and Save a new todo
+exports.createTodo = (req, res) => {
   // Create a todo
   const todo = {
-    isCompleted: req.body.isCompleted ? req.body.isCompleted : false,
+    isCompleted: req.body.isCompleted,
     value: req.body.value,
   };
 
@@ -45,7 +51,7 @@ exports.create = (req, res) => {
 };
 
 // Update a todo by the id in the request
-exports.update = (req, res) => {
+exports.updateTodo = (req, res) => {
   const id = req.params.id;
 
   Todo.update(req.body, {
@@ -70,7 +76,7 @@ exports.update = (req, res) => {
 };
 
 // Delete a todo with the specified id in the request
-exports.delete = (req, res) => {
+exports.deleteTodo = (req, res) => {
   const id = req.params.id;
   Todo.destroy({
     where: { id: id },
@@ -92,6 +98,7 @@ exports.delete = (req, res) => {
       });
     });
 };
+
 //delete all completed todos
 exports.deleteAllCompleted = (req, res) => {
   Todo.destroy({
