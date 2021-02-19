@@ -15,21 +15,6 @@ exports.getAllTodos = (req, res) => {
     });
 };
 
-// Find a single Todo with an id
-exports.findOne = (req, res) => {
-  const id = req.params.id;
-
-  Todo.findByPk(id)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: 'Error retrieving todo with id=' + id,
-      });
-    });
-};
-
 // Create and Save a new todo
 exports.createTodo = (req, res) => {
   // Create a todo
@@ -99,6 +84,19 @@ exports.deleteTodo = (req, res) => {
     });
 };
 
+// Find all completed todos
+exports.findAllCompleted = (req, res) => {
+  Todo.findAll({ where: { isCompleted: true } })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while retrieving Todos.',
+      });
+    });
+};
+
 //delete all completed todos
 exports.deleteAllCompleted = (req, res) => {
   Todo.destroy({
@@ -113,19 +111,6 @@ exports.deleteAllCompleted = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: err.message || 'Some error occurred while removing all Todos.',
-      });
-    });
-};
-
-// Find all completed todos
-exports.findAllCompleted = (req, res) => {
-  Todo.findAll({ where: { isCompleted: true } })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving Todos.',
       });
     });
 };

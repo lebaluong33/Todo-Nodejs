@@ -8,18 +8,12 @@ module.exports = (app) => {
   // get all todo
   router.get('/', todoController.getAllTodos);
 
-  // get a todo
-  router.get('/', validate(TodoValidation.getTodo), todoController.findOne);
-
   // Create a new todo
   router.post(
     '/',
     validate(TodoValidation.createTodo),
     todoController.createTodo
   );
-
-  // Retrieve all published todos
-  router.get('/completed-todos', todoController.findAllCompleted);
 
   // Update a todo with id
   router.put(
@@ -35,8 +29,14 @@ module.exports = (app) => {
     todoController.deleteTodo
   );
 
+  // Retrieve all completed todos
+  router.get('/completed-todos', todoController.findAllCompleted);
+
   // Delete all completed todos
   router.delete('/completed-todos', todoController.deleteAllCompleted);
+
+  // Retrieve all uncompleted todos
+  router.get('/active-todos', todoController.findAllActive);
 
   app.use('/todos', router);
 };
