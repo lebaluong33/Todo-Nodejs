@@ -6,10 +6,10 @@ const Todo = db.todos;
 exports.getAllTodos = (req, res) => {
   Todo.findAll({})
     .then((data) => {
-      res.send(data);
+      res.status(200).send(data);
     })
     .catch((err) => {
-      res.status(500).send({
+      res.status(404).send({
         message: err.message || 'Some error occurred while creating the todo.',
       });
     });
@@ -26,10 +26,10 @@ exports.createTodo = (req, res) => {
   // Save todo in the database
   Todo.create(todo)
     .then((data) => {
-      res.send(data);
+      res.status(201).send(data);
     })
     .catch((err) => {
-      res.status(500).send({
+      res.status(400).send({
         message: err.message || 'Some error occurred while creating the todo.',
       });
     });
@@ -44,17 +44,17 @@ exports.updateTodo = (req, res) => {
   })
     .then((num) => {
       if (num.length) {
-        res.send({
+        res.status(200).send({
           message: 'Todo was updated successfully.',
         });
       } else {
-        res.send({
+        res.status(404).send({
           message: `Cannot update Todo with id=${id}.`,
         });
       }
     })
     .catch((err) => {
-      res.status(500).send({
+      res.status(400).send({
         message: 'Error updating Todo with id=' + id,
       });
     });
@@ -68,17 +68,17 @@ exports.deleteTodo = (req, res) => {
   })
     .then((num) => {
       if (num === 1) {
-        res.send({
+        res.status(204).send({
           message: 'Todo was deleted successfully!',
         });
       } else {
-        send({
+        res.status(404).send({
           message: `Cannot delete Todo with id=${id}. Maybe Todo was not found!`,
         });
       }
     })
     .catch((err) => {
-      res.status(500).send({
+      res.status(400).send({
         message: 'Could not delete Todo with id=' + id,
       });
     });
@@ -88,11 +88,11 @@ exports.deleteTodo = (req, res) => {
 exports.findAllCompleted = (req, res) => {
   Todo.findAll({ where: { isCompleted: true } })
     .then((data) => {
-      res.send(data);
+      res.status(200).send(data);
     })
     .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while retrieving Todos.',
+      res.status(404).send({
+        message: err.message || 'Todos not found.',
       });
     });
 };
@@ -104,13 +104,13 @@ exports.deleteAllCompleted = (req, res) => {
     truncate: false,
   })
     .then((nums) => {
-      res.send({
+      res.status(204).send({
         message: `${nums} Completed todos were deleted successfully!`,
       });
     })
     .catch((err) => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while removing all Todos.',
+      res.status(400).send({
+        message: err.message || 'Could not delete Todos.',
       });
     });
 };
@@ -119,10 +119,10 @@ exports.deleteAllCompleted = (req, res) => {
 exports.findAllActive = (req, res) => {
   Todo.findAll({ where: { isCompleted: false } })
     .then((data) => {
-      res.send(data);
+      res.status(200).send(data);
     })
     .catch((err) => {
-      res.status(500).send({
+      res.status(404).send({
         message: err.message || 'Some error occurred while retrieving Todos.',
       });
     });
