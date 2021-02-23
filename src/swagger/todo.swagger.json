@@ -1,143 +1,253 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.1",
   "info": {
-    "description": "This is a todo app project build with nodejs-express",
-    "version": "1.0.0",
     "title": "Swagger Todo App",
+    "description": "This is a todo app project build with nodejs-express",
     "contact": {
       "email": "Lebaluong33@gmail.com"
-    }
+    },
+    "version": "1.0.0"
   },
-  "host": "todo-app-deploy-demo.herokuapp.com",
-  "basePath": "/",
+  "externalDocs": {
+    "description": "Find out more about me",
+    "url": "https://github.com/lebaluong33"
+  },
+  "servers": [
+    {
+      "url": "https://todo-app-deploy-demo.herokuapp.com/"
+    }
+  ],
   "tags": [
     {
       "name": "Todo",
-      "description": "Everything about Todo app",
+      "description": "Create or get todos from application",
+      "externalDocs": {
+        "description": "Contact me",
+        "url": "https://github.com/lebaluong33"
+      }
+    },
+    {
+      "name": "Completed todo",
+      "description": "Get or delete all completed todos",
+      "externalDocs": {
+        "description": "Contact me",
+        "url": "https://github.com/lebaluong33"
+      }
+    },
+    {
+      "name": "Active todo",
+      "description": "Get all active todos",
       "externalDocs": {
         "description": "Contact me",
         "url": "https://github.com/lebaluong33"
       }
     }
   ],
-  "schemes": [
-    "https",
-    "http"
-  ],
   "paths": {
     "/todos": {
+      "get": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Get all todos",
+        "operationId": "getAllTodos",
+        "responses": {
+          "200": {
+            "description": "Create todo successful",
+            "content": {}
+          },
+          "404": {
+            "description": "Todos Not found",
+            "content": {}
+          }
+        }
+      },
       "post": {
         "tags": [
           "Todo"
         ],
         "summary": "Create new todo",
-        "description": "",
-        "operationId": "create todo",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Todo object that needs to be added to the store",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Todo"
+        "operationId": "createTodo",
+        "requestBody": {
+          "description": "Todo object that needs to be added to the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Todo"
+              }
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "create todo successful"
           },
-          "405": {
-            "description": "Invalid input"
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Create todo successful",
+            "content": {}
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {}
           }
         }
-      },
+      }
+    },
+    "/todos/{id}": {
       "put": {
         "tags": [
           "Todo"
         ],
         "summary": "Update an existing todo",
-        "description": "",
+        "description": "Update todo with exist id",
         "operationId": "updateTodo",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
+        "requestBody": {
+          "description": "Todo object that needs to be added to the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Todo"
+              }
+            }
+          },
+          "required": true
+        },
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "Pet object that needs to be added to the store",
+            "name": "id",
+            "in": "path",
+            "description": "Id of todo to update",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Todo"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
         "responses": {
+          "200": {
+            "description": "Todo was updated successfully.",
+            "content": {}
+          },
+          "400": {
+            "description": "Error updating Todo",
+            "content": {}
+          },
+          "404": {
+            "description": "Cannot update Todo",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Todo"
+        ],
+        "summary": "Get todo with id",
+        "description": "use uuidv4 to get todo with id, return single todo",
+        "operationId": "getTodo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of todo to return",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {}
+          },
           "400": {
             "description": "Invalid ID supplied"
           },
           "404": {
-            "description": "Pet not found"
+            "description": "Todo not found"
+          }
+        }
+      }
+    },
+    "/todos/completed-todos": {
+      "get": {
+        "tags": [
+          "Completed todo"
+        ],
+        "summary": "Get all completed todos",
+        "description": "return a list of completed todos",
+        "operationId": "findAllCompleted",
+        "responses": {
+          "204": {
+            "description": "Todo was deleted successfully!",
+            "content": {}
           },
-          "405": {
-            "description": "Validation exception"
+          "404": {
+            "description": "Todos not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Completed todo"
+        ],
+        "summary": "Delete all completed todos",
+        "description": "Delete all completed todos and return message",
+        "operationId": "deleteAllCompleted",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {}
+          },
+          "400": {
+            "description": "Could not delete Todos"
+          }
+        }
+      }
+    },
+    "/todos/active-todos": {
+      "get": {
+        "tags": [
+          "Active todo"
+        ],
+        "summary": "Get all active todos",
+        "description": "return a list of active todos",
+        "operationId": "findAllActive",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {}
+          },
+          "404": {
+            "description": "Todos not found"
           }
         }
       }
     }
   },
-  "definitions": {
-    "Todo": {
-      "type": "object",
-      "required": [
-        "value",
-        "isCompleted"
-      ],
-      "properties": {
-        "value": {
-          "type": "string",
-          "example": "di cho, nau an"
+  "components": {
+    "schemas": {
+      "Todo": {
+        "required": [
+          "isCompleted",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "example": "di cho, nau an"
+          },
+          "isCompleted": {
+            "type": "boolean",
+            "example": false
+          }
         },
-        "isCompleted": {
-          "type": "boolean",
-          "example": false
-        }
-      },
-      "xml": {
-        "name": "Todo"
-      }
-    },
-    "ApiResponse": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "type": {
-          "type": "string"
-        },
-        "message": {
-          "type": "string"
+        "xml": {
+          "name": "Todo"
         }
       }
     }
-  },
-  "externalDocs": {
-    "description": "Find out more about Swagger",
-    "url": "http://swagger.io"
   }
 }

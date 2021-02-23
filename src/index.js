@@ -1,12 +1,11 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+var createError = require('http-errors');
 const app = express();
 
-
 var corsOptions = {
-  origin: "*"
+  origin: '*',
 };
 
 app.use(function (req, res, next) {
@@ -26,9 +25,7 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-
-const db = require("./models");
+const db = require('./models');
 
 db.sequelize.sync();
 
@@ -38,14 +35,16 @@ db.sequelize.sync();
 // });
 
 // simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to my todo application." });
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to my todo application.' });
 });
 
+require('./routes/todo.routes')(app);
+require('./routes/todoSwagger.routes')(app);
 
-require("./routes/todo.routes")(app);
-require("./routes/todoSwagger.routes")(app);
-
+app.use(function (req, res, next) {
+  next(createError(404));
+});
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
